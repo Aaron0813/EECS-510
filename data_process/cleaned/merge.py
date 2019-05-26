@@ -1,8 +1,8 @@
 import pandas as pd
 import re
 
-df_1 = pd.read_csv("imdb_test.csv",error_bad_lines=False)
-df_2 = pd.read_csv("boxoffice_test.csv",error_bad_lines=False)
+df_1 = pd.read_csv("imdb_res.csv",error_bad_lines=False)
+df_2 = pd.read_csv("boxoffice_res.csv",error_bad_lines=False)
 
 df_1 = pd.DataFrame(df_1)
 df_2 = pd.DataFrame(df_2)
@@ -11,24 +11,27 @@ df = pd.DataFrame(columns = ["tid", "title", "wordsInTitle","url","imdbRating","
 
 for row1 in df_1.itertuples(index=False, name='Pandas'):
     for row2 in df_2.itertuples(index=False, name='Pandas'):
-        title_1 = getattr(row1, "title")
-        year_1 = int(getattr(row1, "year"))
-        # print(title_1, year_1)
+        try:
+            title_1 = getattr(row1, "title")
+            year_1 = int(getattr(row1, "year"))
+            # print(title_1, year_1)
 
-        title_2 = getattr(row2, "title")
-        year_2 = int(getattr(row2, "year"))
-        # print(title_2, year_2)
+            title_2 = getattr(row2, "title")
+            year_2 = int(getattr(row2, "year"))
+            # print(title_2, year_2)
 
-        if title_1 == title_2:
-            print("year 1 = %d, year 2 = %d" %(year_1, year_2))
-            if abs(year_1 - year_2) <= 2 :
-                # print('title : %s' % title_2)
-                res = pd.DataFrame(row1).T
-                # print(type(res))
-                res['lifetime_gross'] = getattr(row2, "lifetime_gross")
-                # df = df.append(res)
-                print(res)
-                res.to_csv('res.csv', mode='a', header=False, index = False)
+            if title_1 == title_2:
+                # print("year 1 = %d, year 2 = %d" %(year_1, year_2))
+                if abs(year_1 - year_2) <= 2 :
+                    # print('title : %s' % title_2)
+                    res = pd.DataFrame(row1).T
+                    # print(type(res))
+                    res['lifetime_gross'] = getattr(row2, "lifetime_gross")
+                    # df = df.append(res)
+                    # print(res)
+                    res.to_csv('clean_result.csv', mode='a', header=False, index = False)
+        except Exception as e:
+            print(e)
 
 
 
