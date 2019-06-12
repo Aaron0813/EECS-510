@@ -1,4 +1,0 @@
-fake_data:用RNN算出来的得分
-real_data:用http_request请求网站得到的数据
-predict.ipynb:对应的用RNN进行预测的代码文件
-re_request.ipynb:用来request网站的代码
